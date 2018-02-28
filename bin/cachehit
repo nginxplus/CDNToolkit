@@ -1,0 +1,21 @@
+#!/bin/bash
+# proxy_cache hit rate
+
+Time=`date "+%Y-%m-%d %H:%M:%S"`
+
+if [ $1x = x ]; then
+    LOG="/var/log/nginx/access.log"
+else
+    LOG=$1
+fi
+if [ -e $LOG ]; then
+    HIT=`cat $LOG | grep HIT | wc -l`
+    ALL=`cat $LOG | wc -l`
+    Hit_rate=`echo "scale=2;($HIT/$ALL)*100" | bc`
+    echo "All: $ALL"
+    echo "Hit: $HIT"
+    echo "Hit Rate: $Hit_rate%"
+    echo "Last Update: $Time"
+else
+    echo "$LOG not exsist!"
+fi
